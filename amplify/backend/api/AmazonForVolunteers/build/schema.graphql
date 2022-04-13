@@ -1,0 +1,962 @@
+
+type OrgCategory @aws_iam @aws_api_key {
+  id: ID!
+  categoryID: ID!
+  organizationID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Category @aws_iam @aws_api_key {
+  id: ID!
+  Name: String
+  OrgCategories(filter: ModelOrgCategoryFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelOrgCategoryConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+enum OrgStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum Severity {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+type IncidentCategory @aws_iam @aws_api_key {
+  id: ID!
+  Name: String
+  Desc: String
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type CommunicationModes @aws_iam @aws_api_key {
+  id: ID!
+  Phone: String
+  Video: String
+  Other: String
+  incidentID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Organization @aws_iam @aws_api_key {
+  id: ID!
+  Name: String
+  Address: String
+  Phone: AWSPhone
+  WebURL: String
+  Desc: String
+  Status: OrgStatus
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  Volunteers(filter: ModelVolunteerFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelVolunteerConnection
+  OrgCategories(filter: ModelOrgCategoryFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelOrgCategoryConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type IncidentRequesterVolunteerXRef @aws_iam @aws_api_key {
+  id: ID!
+  IncidentId: ID
+  VolunteerId: ID
+  RequesterId: ID
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type IncidentActivity @aws_iam @aws_api_key {
+  id: ID!
+  Activity_XRef: String
+  Desc: String
+  Category: String
+  Status: String
+  Created: AWSDateTime
+  Updated: AWSDateTime
+  ActorId: ID
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  incidentID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Incident @aws_iam @aws_api_key {
+  id: ID!
+  Date: AWSDateTime
+  Desc: String
+  Category: String
+  Severity: Severity
+  Ack: String
+  Status: String
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  IncidentActivities(filter: ModelIncidentActivityFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelIncidentActivityConnection
+  CommunicationModes(filter: ModelCommunicationModesFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCommunicationModesConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Volunteer @aws_iam @aws_api_key {
+  id: ID!
+  Name: String
+  Address: String
+  Age: Int
+  Phone: AWSPhone
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  Created: AWSDateTime
+  Updated: AWSDateTime
+  organizationID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Requester @aws_iam @aws_api_key {
+  id: ID!
+  Name: String
+  Address: String
+  Age: Int
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  Phone: AWSPhone
+  Created: AWSDateTime
+  Updated: AWSDateTime
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelOrgCategoryConnection @aws_api_key @aws_iam {
+  items: [OrgCategory]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelOrgCategoryFilterInput {
+  id: ModelIDInput
+  categoryID: ModelIDInput
+  organizationID: ModelIDInput
+  and: [ModelOrgCategoryFilterInput]
+  or: [ModelOrgCategoryFilterInput]
+  not: ModelOrgCategoryFilterInput
+}
+
+type Query {
+  getOrgCategory(id: ID!): OrgCategory @aws_api_key @aws_iam
+  listOrgCategories(filter: ModelOrgCategoryFilterInput, limit: Int, nextToken: String): ModelOrgCategoryConnection @aws_api_key @aws_iam
+  syncOrgCategories(filter: ModelOrgCategoryFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelOrgCategoryConnection @aws_api_key @aws_iam
+  getCategory(id: ID!): Category @aws_api_key @aws_iam
+  listCategories(filter: ModelCategoryFilterInput, limit: Int, nextToken: String): ModelCategoryConnection @aws_api_key @aws_iam
+  syncCategories(filter: ModelCategoryFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelCategoryConnection @aws_api_key @aws_iam
+  getIncidentCategory(id: ID!): IncidentCategory @aws_api_key @aws_iam
+  listIncidentCategories(filter: ModelIncidentCategoryFilterInput, limit: Int, nextToken: String): ModelIncidentCategoryConnection @aws_api_key @aws_iam
+  syncIncidentCategories(filter: ModelIncidentCategoryFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelIncidentCategoryConnection @aws_api_key @aws_iam
+  getCommunicationModes(id: ID!): CommunicationModes @aws_api_key @aws_iam
+  listCommunicationModes(filter: ModelCommunicationModesFilterInput, limit: Int, nextToken: String): ModelCommunicationModesConnection @aws_api_key @aws_iam
+  syncCommunicationModes(filter: ModelCommunicationModesFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelCommunicationModesConnection @aws_api_key @aws_iam
+  getOrganization(id: ID!): Organization @aws_api_key @aws_iam
+  listOrganizations(filter: ModelOrganizationFilterInput, limit: Int, nextToken: String): ModelOrganizationConnection @aws_api_key @aws_iam
+  syncOrganizations(filter: ModelOrganizationFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelOrganizationConnection @aws_api_key @aws_iam
+  getIncidentRequesterVolunteerXRef(id: ID!): IncidentRequesterVolunteerXRef @aws_api_key @aws_iam
+  listIncidentRequesterVolunteerXRefs(filter: ModelIncidentRequesterVolunteerXRefFilterInput, limit: Int, nextToken: String): ModelIncidentRequesterVolunteerXRefConnection @aws_api_key @aws_iam
+  syncIncidentRequesterVolunteerXRefs(filter: ModelIncidentRequesterVolunteerXRefFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelIncidentRequesterVolunteerXRefConnection @aws_api_key @aws_iam
+  getIncidentActivity(id: ID!): IncidentActivity @aws_api_key @aws_iam
+  listIncidentActivities(filter: ModelIncidentActivityFilterInput, limit: Int, nextToken: String): ModelIncidentActivityConnection @aws_api_key @aws_iam
+  syncIncidentActivities(filter: ModelIncidentActivityFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelIncidentActivityConnection @aws_api_key @aws_iam
+  getIncident(id: ID!): Incident @aws_api_key @aws_iam
+  listIncidents(filter: ModelIncidentFilterInput, limit: Int, nextToken: String): ModelIncidentConnection @aws_api_key @aws_iam
+  syncIncidents(filter: ModelIncidentFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelIncidentConnection @aws_api_key @aws_iam
+  getVolunteer(id: ID!): Volunteer @aws_api_key @aws_iam
+  listVolunteers(filter: ModelVolunteerFilterInput, limit: Int, nextToken: String): ModelVolunteerConnection @aws_api_key @aws_iam
+  syncVolunteers(filter: ModelVolunteerFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelVolunteerConnection @aws_api_key @aws_iam
+  getRequester(id: ID!): Requester @aws_api_key @aws_iam
+  listRequesters(filter: ModelRequesterFilterInput, limit: Int, nextToken: String): ModelRequesterConnection @aws_api_key @aws_iam
+  syncRequesters(filter: ModelRequesterFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelRequesterConnection @aws_api_key @aws_iam
+}
+
+input ModelOrgCategoryConditionInput {
+  categoryID: ModelIDInput
+  organizationID: ModelIDInput
+  and: [ModelOrgCategoryConditionInput]
+  or: [ModelOrgCategoryConditionInput]
+  not: ModelOrgCategoryConditionInput
+}
+
+input CreateOrgCategoryInput {
+  id: ID
+  categoryID: ID!
+  organizationID: ID!
+  _version: Int
+}
+
+input UpdateOrgCategoryInput {
+  id: ID!
+  categoryID: ID
+  organizationID: ID
+  _version: Int
+}
+
+input DeleteOrgCategoryInput {
+  id: ID!
+  _version: Int
+}
+
+type Mutation {
+  createOrgCategory(input: CreateOrgCategoryInput!, condition: ModelOrgCategoryConditionInput): OrgCategory @aws_api_key @aws_iam
+  updateOrgCategory(input: UpdateOrgCategoryInput!, condition: ModelOrgCategoryConditionInput): OrgCategory @aws_api_key @aws_iam
+  deleteOrgCategory(input: DeleteOrgCategoryInput!, condition: ModelOrgCategoryConditionInput): OrgCategory @aws_api_key @aws_iam
+  createCategory(input: CreateCategoryInput!, condition: ModelCategoryConditionInput): Category @aws_api_key @aws_iam
+  updateCategory(input: UpdateCategoryInput!, condition: ModelCategoryConditionInput): Category @aws_api_key @aws_iam
+  deleteCategory(input: DeleteCategoryInput!, condition: ModelCategoryConditionInput): Category @aws_api_key @aws_iam
+  createIncidentCategory(input: CreateIncidentCategoryInput!, condition: ModelIncidentCategoryConditionInput): IncidentCategory @aws_api_key @aws_iam
+  updateIncidentCategory(input: UpdateIncidentCategoryInput!, condition: ModelIncidentCategoryConditionInput): IncidentCategory @aws_api_key @aws_iam
+  deleteIncidentCategory(input: DeleteIncidentCategoryInput!, condition: ModelIncidentCategoryConditionInput): IncidentCategory @aws_api_key @aws_iam
+  createCommunicationModes(input: CreateCommunicationModesInput!, condition: ModelCommunicationModesConditionInput): CommunicationModes @aws_api_key @aws_iam
+  updateCommunicationModes(input: UpdateCommunicationModesInput!, condition: ModelCommunicationModesConditionInput): CommunicationModes @aws_api_key @aws_iam
+  deleteCommunicationModes(input: DeleteCommunicationModesInput!, condition: ModelCommunicationModesConditionInput): CommunicationModes @aws_api_key @aws_iam
+  createOrganization(input: CreateOrganizationInput!, condition: ModelOrganizationConditionInput): Organization @aws_api_key @aws_iam
+  updateOrganization(input: UpdateOrganizationInput!, condition: ModelOrganizationConditionInput): Organization @aws_api_key @aws_iam
+  deleteOrganization(input: DeleteOrganizationInput!, condition: ModelOrganizationConditionInput): Organization @aws_api_key @aws_iam
+  createIncidentRequesterVolunteerXRef(input: CreateIncidentRequesterVolunteerXRefInput!, condition: ModelIncidentRequesterVolunteerXRefConditionInput): IncidentRequesterVolunteerXRef @aws_api_key @aws_iam
+  updateIncidentRequesterVolunteerXRef(input: UpdateIncidentRequesterVolunteerXRefInput!, condition: ModelIncidentRequesterVolunteerXRefConditionInput): IncidentRequesterVolunteerXRef @aws_api_key @aws_iam
+  deleteIncidentRequesterVolunteerXRef(input: DeleteIncidentRequesterVolunteerXRefInput!, condition: ModelIncidentRequesterVolunteerXRefConditionInput): IncidentRequesterVolunteerXRef @aws_api_key @aws_iam
+  createIncidentActivity(input: CreateIncidentActivityInput!, condition: ModelIncidentActivityConditionInput): IncidentActivity @aws_api_key @aws_iam
+  updateIncidentActivity(input: UpdateIncidentActivityInput!, condition: ModelIncidentActivityConditionInput): IncidentActivity @aws_api_key @aws_iam
+  deleteIncidentActivity(input: DeleteIncidentActivityInput!, condition: ModelIncidentActivityConditionInput): IncidentActivity @aws_api_key @aws_iam
+  createIncident(input: CreateIncidentInput!, condition: ModelIncidentConditionInput): Incident @aws_api_key @aws_iam
+  updateIncident(input: UpdateIncidentInput!, condition: ModelIncidentConditionInput): Incident @aws_api_key @aws_iam
+  deleteIncident(input: DeleteIncidentInput!, condition: ModelIncidentConditionInput): Incident @aws_api_key @aws_iam
+  createVolunteer(input: CreateVolunteerInput!, condition: ModelVolunteerConditionInput): Volunteer @aws_api_key @aws_iam
+  updateVolunteer(input: UpdateVolunteerInput!, condition: ModelVolunteerConditionInput): Volunteer @aws_api_key @aws_iam
+  deleteVolunteer(input: DeleteVolunteerInput!, condition: ModelVolunteerConditionInput): Volunteer @aws_api_key @aws_iam
+  createRequester(input: CreateRequesterInput!, condition: ModelRequesterConditionInput): Requester @aws_api_key @aws_iam
+  updateRequester(input: UpdateRequesterInput!, condition: ModelRequesterConditionInput): Requester @aws_api_key @aws_iam
+  deleteRequester(input: DeleteRequesterInput!, condition: ModelRequesterConditionInput): Requester @aws_api_key @aws_iam
+}
+
+type Subscription {
+  onCreateOrgCategory: OrgCategory @aws_subscribe(mutations: ["createOrgCategory"]) @aws_api_key @aws_iam
+  onUpdateOrgCategory: OrgCategory @aws_subscribe(mutations: ["updateOrgCategory"]) @aws_api_key @aws_iam
+  onDeleteOrgCategory: OrgCategory @aws_subscribe(mutations: ["deleteOrgCategory"]) @aws_api_key @aws_iam
+  onCreateCategory: Category @aws_subscribe(mutations: ["createCategory"]) @aws_api_key @aws_iam
+  onUpdateCategory: Category @aws_subscribe(mutations: ["updateCategory"]) @aws_api_key @aws_iam
+  onDeleteCategory: Category @aws_subscribe(mutations: ["deleteCategory"]) @aws_api_key @aws_iam
+  onCreateIncidentCategory: IncidentCategory @aws_subscribe(mutations: ["createIncidentCategory"]) @aws_api_key @aws_iam
+  onUpdateIncidentCategory: IncidentCategory @aws_subscribe(mutations: ["updateIncidentCategory"]) @aws_api_key @aws_iam
+  onDeleteIncidentCategory: IncidentCategory @aws_subscribe(mutations: ["deleteIncidentCategory"]) @aws_api_key @aws_iam
+  onCreateCommunicationModes: CommunicationModes @aws_subscribe(mutations: ["createCommunicationModes"]) @aws_api_key @aws_iam
+  onUpdateCommunicationModes: CommunicationModes @aws_subscribe(mutations: ["updateCommunicationModes"]) @aws_api_key @aws_iam
+  onDeleteCommunicationModes: CommunicationModes @aws_subscribe(mutations: ["deleteCommunicationModes"]) @aws_api_key @aws_iam
+  onCreateOrganization: Organization @aws_subscribe(mutations: ["createOrganization"]) @aws_api_key @aws_iam
+  onUpdateOrganization: Organization @aws_subscribe(mutations: ["updateOrganization"]) @aws_api_key @aws_iam
+  onDeleteOrganization: Organization @aws_subscribe(mutations: ["deleteOrganization"]) @aws_api_key @aws_iam
+  onCreateIncidentRequesterVolunteerXRef: IncidentRequesterVolunteerXRef @aws_subscribe(mutations: ["createIncidentRequesterVolunteerXRef"]) @aws_api_key @aws_iam
+  onUpdateIncidentRequesterVolunteerXRef: IncidentRequesterVolunteerXRef @aws_subscribe(mutations: ["updateIncidentRequesterVolunteerXRef"]) @aws_api_key @aws_iam
+  onDeleteIncidentRequesterVolunteerXRef: IncidentRequesterVolunteerXRef @aws_subscribe(mutations: ["deleteIncidentRequesterVolunteerXRef"]) @aws_api_key @aws_iam
+  onCreateIncidentActivity: IncidentActivity @aws_subscribe(mutations: ["createIncidentActivity"]) @aws_api_key @aws_iam
+  onUpdateIncidentActivity: IncidentActivity @aws_subscribe(mutations: ["updateIncidentActivity"]) @aws_api_key @aws_iam
+  onDeleteIncidentActivity: IncidentActivity @aws_subscribe(mutations: ["deleteIncidentActivity"]) @aws_api_key @aws_iam
+  onCreateIncident: Incident @aws_subscribe(mutations: ["createIncident"]) @aws_api_key @aws_iam
+  onUpdateIncident: Incident @aws_subscribe(mutations: ["updateIncident"]) @aws_api_key @aws_iam
+  onDeleteIncident: Incident @aws_subscribe(mutations: ["deleteIncident"]) @aws_api_key @aws_iam
+  onCreateVolunteer: Volunteer @aws_subscribe(mutations: ["createVolunteer"]) @aws_api_key @aws_iam
+  onUpdateVolunteer: Volunteer @aws_subscribe(mutations: ["updateVolunteer"]) @aws_api_key @aws_iam
+  onDeleteVolunteer: Volunteer @aws_subscribe(mutations: ["deleteVolunteer"]) @aws_api_key @aws_iam
+  onCreateRequester: Requester @aws_subscribe(mutations: ["createRequester"]) @aws_api_key @aws_iam
+  onUpdateRequester: Requester @aws_subscribe(mutations: ["updateRequester"]) @aws_api_key @aws_iam
+  onDeleteRequester: Requester @aws_subscribe(mutations: ["deleteRequester"]) @aws_api_key @aws_iam
+}
+
+type ModelCategoryConnection @aws_api_key @aws_iam {
+  items: [Category]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelCategoryFilterInput {
+  id: ModelIDInput
+  Name: ModelStringInput
+  and: [ModelCategoryFilterInput]
+  or: [ModelCategoryFilterInput]
+  not: ModelCategoryFilterInput
+}
+
+input ModelCategoryConditionInput {
+  Name: ModelStringInput
+  and: [ModelCategoryConditionInput]
+  or: [ModelCategoryConditionInput]
+  not: ModelCategoryConditionInput
+}
+
+input CreateCategoryInput {
+  id: ID
+  Name: String
+  _version: Int
+}
+
+input UpdateCategoryInput {
+  id: ID!
+  Name: String
+  _version: Int
+}
+
+input DeleteCategoryInput {
+  id: ID!
+  _version: Int
+}
+
+type ModelIncidentCategoryConnection @aws_api_key @aws_iam {
+  items: [IncidentCategory]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelIncidentCategoryFilterInput {
+  id: ModelIDInput
+  Name: ModelStringInput
+  Desc: ModelStringInput
+  Attribute1: ModelStringInput
+  Attribute2: ModelStringInput
+  Attribute3: ModelStringInput
+  and: [ModelIncidentCategoryFilterInput]
+  or: [ModelIncidentCategoryFilterInput]
+  not: ModelIncidentCategoryFilterInput
+}
+
+input ModelIncidentCategoryConditionInput {
+  Name: ModelStringInput
+  Desc: ModelStringInput
+  Attribute1: ModelStringInput
+  Attribute2: ModelStringInput
+  Attribute3: ModelStringInput
+  and: [ModelIncidentCategoryConditionInput]
+  or: [ModelIncidentCategoryConditionInput]
+  not: ModelIncidentCategoryConditionInput
+}
+
+input CreateIncidentCategoryInput {
+  id: ID
+  Name: String
+  Desc: String
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  _version: Int
+}
+
+input UpdateIncidentCategoryInput {
+  id: ID!
+  Name: String
+  Desc: String
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  _version: Int
+}
+
+input DeleteIncidentCategoryInput {
+  id: ID!
+  _version: Int
+}
+
+type ModelCommunicationModesConnection @aws_api_key @aws_iam {
+  items: [CommunicationModes]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelCommunicationModesFilterInput {
+  id: ModelIDInput
+  Phone: ModelStringInput
+  Video: ModelStringInput
+  Other: ModelStringInput
+  incidentID: ModelIDInput
+  and: [ModelCommunicationModesFilterInput]
+  or: [ModelCommunicationModesFilterInput]
+  not: ModelCommunicationModesFilterInput
+}
+
+input ModelCommunicationModesConditionInput {
+  Phone: ModelStringInput
+  Video: ModelStringInput
+  Other: ModelStringInput
+  incidentID: ModelIDInput
+  and: [ModelCommunicationModesConditionInput]
+  or: [ModelCommunicationModesConditionInput]
+  not: ModelCommunicationModesConditionInput
+}
+
+input CreateCommunicationModesInput {
+  id: ID
+  Phone: String
+  Video: String
+  Other: String
+  incidentID: ID!
+  _version: Int
+}
+
+input UpdateCommunicationModesInput {
+  id: ID!
+  Phone: String
+  Video: String
+  Other: String
+  incidentID: ID
+  _version: Int
+}
+
+input DeleteCommunicationModesInput {
+  id: ID!
+  _version: Int
+}
+
+type ModelOrganizationConnection @aws_api_key @aws_iam {
+  items: [Organization]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelOrgStatusInput {
+  eq: OrgStatus
+  ne: OrgStatus
+}
+
+input ModelOrganizationFilterInput {
+  id: ModelIDInput
+  Name: ModelStringInput
+  Address: ModelStringInput
+  Phone: ModelStringInput
+  WebURL: ModelStringInput
+  Desc: ModelStringInput
+  Status: ModelOrgStatusInput
+  Attribute1: ModelStringInput
+  Attribute2: ModelStringInput
+  Attribute3: ModelStringInput
+  and: [ModelOrganizationFilterInput]
+  or: [ModelOrganizationFilterInput]
+  not: ModelOrganizationFilterInput
+}
+
+input ModelOrganizationConditionInput {
+  Name: ModelStringInput
+  Address: ModelStringInput
+  Phone: ModelStringInput
+  WebURL: ModelStringInput
+  Desc: ModelStringInput
+  Status: ModelOrgStatusInput
+  Attribute1: ModelStringInput
+  Attribute2: ModelStringInput
+  Attribute3: ModelStringInput
+  and: [ModelOrganizationConditionInput]
+  or: [ModelOrganizationConditionInput]
+  not: ModelOrganizationConditionInput
+}
+
+input CreateOrganizationInput {
+  id: ID
+  Name: String
+  Address: String
+  Phone: AWSPhone
+  WebURL: String
+  Desc: String
+  Status: OrgStatus
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  _version: Int
+}
+
+input UpdateOrganizationInput {
+  id: ID!
+  Name: String
+  Address: String
+  Phone: AWSPhone
+  WebURL: String
+  Desc: String
+  Status: OrgStatus
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  _version: Int
+}
+
+input DeleteOrganizationInput {
+  id: ID!
+  _version: Int
+}
+
+type ModelIncidentRequesterVolunteerXRefConnection @aws_api_key @aws_iam {
+  items: [IncidentRequesterVolunteerXRef]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelIncidentRequesterVolunteerXRefFilterInput {
+  id: ModelIDInput
+  IncidentId: ModelIDInput
+  VolunteerId: ModelIDInput
+  RequesterId: ModelIDInput
+  and: [ModelIncidentRequesterVolunteerXRefFilterInput]
+  or: [ModelIncidentRequesterVolunteerXRefFilterInput]
+  not: ModelIncidentRequesterVolunteerXRefFilterInput
+}
+
+input ModelIncidentRequesterVolunteerXRefConditionInput {
+  IncidentId: ModelIDInput
+  VolunteerId: ModelIDInput
+  RequesterId: ModelIDInput
+  and: [ModelIncidentRequesterVolunteerXRefConditionInput]
+  or: [ModelIncidentRequesterVolunteerXRefConditionInput]
+  not: ModelIncidentRequesterVolunteerXRefConditionInput
+}
+
+input CreateIncidentRequesterVolunteerXRefInput {
+  id: ID
+  IncidentId: ID
+  VolunteerId: ID
+  RequesterId: ID
+  _version: Int
+}
+
+input UpdateIncidentRequesterVolunteerXRefInput {
+  id: ID!
+  IncidentId: ID
+  VolunteerId: ID
+  RequesterId: ID
+  _version: Int
+}
+
+input DeleteIncidentRequesterVolunteerXRefInput {
+  id: ID!
+  _version: Int
+}
+
+type ModelIncidentActivityConnection @aws_api_key @aws_iam {
+  items: [IncidentActivity]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelIncidentActivityFilterInput {
+  id: ModelIDInput
+  Activity_XRef: ModelStringInput
+  Desc: ModelStringInput
+  Category: ModelStringInput
+  Status: ModelStringInput
+  Created: ModelStringInput
+  Updated: ModelStringInput
+  ActorId: ModelIDInput
+  Attribute1: ModelStringInput
+  Attribute2: ModelStringInput
+  Attribute3: ModelStringInput
+  incidentID: ModelIDInput
+  and: [ModelIncidentActivityFilterInput]
+  or: [ModelIncidentActivityFilterInput]
+  not: ModelIncidentActivityFilterInput
+}
+
+input ModelIncidentActivityConditionInput {
+  Activity_XRef: ModelStringInput
+  Desc: ModelStringInput
+  Category: ModelStringInput
+  Status: ModelStringInput
+  Created: ModelStringInput
+  Updated: ModelStringInput
+  ActorId: ModelIDInput
+  Attribute1: ModelStringInput
+  Attribute2: ModelStringInput
+  Attribute3: ModelStringInput
+  incidentID: ModelIDInput
+  and: [ModelIncidentActivityConditionInput]
+  or: [ModelIncidentActivityConditionInput]
+  not: ModelIncidentActivityConditionInput
+}
+
+input CreateIncidentActivityInput {
+  id: ID
+  Activity_XRef: String
+  Desc: String
+  Category: String
+  Status: String
+  Created: AWSDateTime
+  Updated: AWSDateTime
+  ActorId: ID
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  incidentID: ID!
+  _version: Int
+}
+
+input UpdateIncidentActivityInput {
+  id: ID!
+  Activity_XRef: String
+  Desc: String
+  Category: String
+  Status: String
+  Created: AWSDateTime
+  Updated: AWSDateTime
+  ActorId: ID
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  incidentID: ID
+  _version: Int
+}
+
+input DeleteIncidentActivityInput {
+  id: ID!
+  _version: Int
+}
+
+type ModelIncidentConnection @aws_api_key @aws_iam {
+  items: [Incident]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelSeverityInput {
+  eq: Severity
+  ne: Severity
+}
+
+input ModelIncidentFilterInput {
+  id: ModelIDInput
+  Date: ModelStringInput
+  Desc: ModelStringInput
+  Category: ModelStringInput
+  Severity: ModelSeverityInput
+  Ack: ModelStringInput
+  Status: ModelStringInput
+  Attribute1: ModelStringInput
+  Attribute2: ModelStringInput
+  Attribute3: ModelStringInput
+  and: [ModelIncidentFilterInput]
+  or: [ModelIncidentFilterInput]
+  not: ModelIncidentFilterInput
+}
+
+input ModelIncidentConditionInput {
+  Date: ModelStringInput
+  Desc: ModelStringInput
+  Category: ModelStringInput
+  Severity: ModelSeverityInput
+  Ack: ModelStringInput
+  Status: ModelStringInput
+  Attribute1: ModelStringInput
+  Attribute2: ModelStringInput
+  Attribute3: ModelStringInput
+  and: [ModelIncidentConditionInput]
+  or: [ModelIncidentConditionInput]
+  not: ModelIncidentConditionInput
+}
+
+input CreateIncidentInput {
+  id: ID
+  Date: AWSDateTime
+  Desc: String
+  Category: String
+  Severity: Severity
+  Ack: String
+  Status: String
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  _version: Int
+}
+
+input UpdateIncidentInput {
+  id: ID!
+  Date: AWSDateTime
+  Desc: String
+  Category: String
+  Severity: Severity
+  Ack: String
+  Status: String
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  _version: Int
+}
+
+input DeleteIncidentInput {
+  id: ID!
+  _version: Int
+}
+
+type ModelVolunteerConnection @aws_iam @aws_api_key {
+  items: [Volunteer]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelVolunteerFilterInput {
+  id: ModelIDInput
+  Name: ModelStringInput
+  Address: ModelStringInput
+  Age: ModelIntInput
+  Phone: ModelStringInput
+  Attribute1: ModelStringInput
+  Attribute2: ModelStringInput
+  Attribute3: ModelStringInput
+  Created: ModelStringInput
+  Updated: ModelStringInput
+  organizationID: ModelIDInput
+  and: [ModelVolunteerFilterInput]
+  or: [ModelVolunteerFilterInput]
+  not: ModelVolunteerFilterInput
+}
+
+input ModelVolunteerConditionInput {
+  Name: ModelStringInput
+  Address: ModelStringInput
+  Age: ModelIntInput
+  Phone: ModelStringInput
+  Attribute1: ModelStringInput
+  Attribute2: ModelStringInput
+  Attribute3: ModelStringInput
+  Created: ModelStringInput
+  Updated: ModelStringInput
+  organizationID: ModelIDInput
+  and: [ModelVolunteerConditionInput]
+  or: [ModelVolunteerConditionInput]
+  not: ModelVolunteerConditionInput
+}
+
+input CreateVolunteerInput {
+  id: ID
+  Name: String
+  Address: String
+  Age: Int
+  Phone: AWSPhone
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  Created: AWSDateTime
+  Updated: AWSDateTime
+  organizationID: ID!
+  _version: Int
+}
+
+input UpdateVolunteerInput {
+  id: ID!
+  Name: String
+  Address: String
+  Age: Int
+  Phone: AWSPhone
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  Created: AWSDateTime
+  Updated: AWSDateTime
+  organizationID: ID
+  _version: Int
+}
+
+input DeleteVolunteerInput {
+  id: ID!
+  _version: Int
+}
+
+type ModelRequesterConnection @aws_api_key @aws_iam {
+  items: [Requester]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelRequesterFilterInput {
+  id: ModelIDInput
+  Name: ModelStringInput
+  Address: ModelStringInput
+  Age: ModelIntInput
+  Attribute1: ModelStringInput
+  Attribute2: ModelStringInput
+  Attribute3: ModelStringInput
+  Phone: ModelStringInput
+  Created: ModelStringInput
+  Updated: ModelStringInput
+  and: [ModelRequesterFilterInput]
+  or: [ModelRequesterFilterInput]
+  not: ModelRequesterFilterInput
+}
+
+input ModelRequesterConditionInput {
+  Name: ModelStringInput
+  Address: ModelStringInput
+  Age: ModelIntInput
+  Attribute1: ModelStringInput
+  Attribute2: ModelStringInput
+  Attribute3: ModelStringInput
+  Phone: ModelStringInput
+  Created: ModelStringInput
+  Updated: ModelStringInput
+  and: [ModelRequesterConditionInput]
+  or: [ModelRequesterConditionInput]
+  not: ModelRequesterConditionInput
+}
+
+input CreateRequesterInput {
+  id: ID
+  Name: String
+  Address: String
+  Age: Int
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  Phone: AWSPhone
+  Created: AWSDateTime
+  Updated: AWSDateTime
+  _version: Int
+}
+
+input UpdateRequesterInput {
+  id: ID!
+  Name: String
+  Address: String
+  Age: Int
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  Phone: AWSPhone
+  Created: AWSDateTime
+  Updated: AWSDateTime
+  _version: Int
+}
+
+input DeleteRequesterInput {
+  id: ID!
+  _version: Int
+}
+

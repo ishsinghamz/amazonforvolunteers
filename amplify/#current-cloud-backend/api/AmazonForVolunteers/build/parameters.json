@@ -1,0 +1,13 @@
+{
+    "AppSyncApiName": "AmazonForVolunteers",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "S3DeploymentBucket": "amplify-amazonforvolunteers-staging-150221-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/d2298b732e031416044e5c1752195f139f809aba"
+}

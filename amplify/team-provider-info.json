@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amazonforvolunteers-staging-150221-authRole",
+      "UnauthRoleArn": "arn:aws:iam::086763549649:role/amplify-amazonforvolunteers-staging-150221-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::086763549649:role/amplify-amazonforvolunteers-staging-150221-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-amazonforvolunteers-staging-150221-deployment",
+      "UnauthRoleName": "amplify-amazonforvolunteers-staging-150221-unauthRole",
+      "StackName": "amplify-amazonforvolunteers-staging-150221",
+      "StackId": "arn:aws:cloudformation:us-east-1:086763549649:stack/amplify-amazonforvolunteers-staging-150221/8dc6f5a0-ba71-11ec-9da4-0ab1a3d5a7e1",
+      "AmplifyAppId": "d2batssqhv5x2t"
+    },
+    "categories": {
+      "auth": {
+        "AmazonForVolunteers": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amazonforvolunteers-staging-150221-authRole",
+      "UnauthRoleArn": "arn:aws:iam::086763549649:role/amplify-amazonforvolunteers-staging-150221-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::086763549649:role/amplify-amazonforvolunteers-staging-150221-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-amazonforvolunteers-staging-150221-deployment",
+      "UnauthRoleName": "amplify-amazonforvolunteers-staging-150221-unauthRole",
+      "StackName": "amplify-amazonforvolunteers-staging-150221",
+      "StackId": "arn:aws:cloudformation:us-east-1:086763549649:stack/amplify-amazonforvolunteers-staging-150221/8dc6f5a0-ba71-11ec-9da4-0ab1a3d5a7e1",
+      "AmplifyAppId": "d2batssqhv5x2t"
+    }
+  },
+  "api": {
+    "AmazonForVolunteers": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 30,
+              "description": "api key description"
+            }
+          },
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ]
+        },
+        "GraphQLAPIIdOutput": "cgsaecva7ra4vd5r432xmgphmu",
+        "GraphQLAPIEndpointOutput": "https://dxtqrw6sn5ffzhssk4hnkrouua.appsync-api.us-east-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-5tqbsohxbvadraw72eunn6w5ym"
+      },
+      "lastPushTimeStamp": "2022-04-13T08:06:12.797Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-amazonforvolunteers-staging-150221-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apiAmazonForVolunteers"
+      },
+      "lastPushDirHash": "JgBALctezFBTQcwLTO02M7q83Y0="
+    }
+  },
+  "auth": {
+    "AmazonForVolunteers": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "frontendAuthConfig": {
+        "socialProviders": [
+          "GOOGLE"
+        ],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "signupAttributes": [],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": [
+            "REQUIRES_LOWERCASE",
+            "REQUIRES_NUMBERS",
+            "REQUIRES_SYMBOLS",
+            "REQUIRES_UPPERCASE"
+          ]
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "output": {
+        "UserPoolId": "us-east-1_BYdVjVJk4",
+        "AppClientIDWeb": "6faggiu5gb5mncnfc2ic753s7r",
+        "AppClientID": "10jmqk7tt1d3liernpo6ul3mj0",
+        "HostedUIDomain": "2irlt7c3p6wk-staging",
+        "IdentityPoolId": "us-east-1:8258b0fd-6b06-444b-bdac-1ca5857d3522",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-1:086763549649:userpool/us-east-1_BYdVjVJk4",
+        "IdentityPoolName": "testAuthIdentityPool__staging",
+        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://2irlt7c3p6wk-staging.auth.us-east-1.amazoncognito.com/\"],\"LogoutURLs\":[\"https://2irlt7c3p6wk-staging.auth.us-east-1.amazoncognito.com/\"]}",
+        "UserPoolName": "AmazonForVolunteers"
+      },
+      "lastPushTimeStamp": "2022-04-13T08:06:12.799Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-amazonforvolunteers-staging-150221-deployment/amplify-cfn-templates/auth/AmazonForVolunteers-cloudformation-template.json",
+        "logicalId": "authAmazonForVolunteers"
+      }
+    }
+  }
+}

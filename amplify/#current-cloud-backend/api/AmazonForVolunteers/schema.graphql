@@ -1,0 +1,119 @@
+type OrgCategory @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  categoryID: ID! @index(name: "byCategory")
+  organizationID: ID! @index(name: "byOrganization")
+}
+
+type Category @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Name: String
+  OrgCategories: [OrgCategory] @hasMany(indexName: "byCategory", fields: ["id"])
+}
+
+enum OrgStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum Severity {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+type IncidentCategory @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Name: String
+  Desc: String
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+}
+
+type CommunicationModes @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Phone: String
+  Video: String
+  Other: String
+  incidentID: ID! @index(name: "byIncident")
+}
+
+type Organization @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Name: String
+  Address: String
+  Phone: AWSPhone
+  WebURL: String
+  Desc: String
+  Status: OrgStatus
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  Volunteers: [Volunteer] @hasMany(indexName: "byOrganization", fields: ["id"])
+  OrgCategories: [OrgCategory] @hasMany(indexName: "byOrganization", fields: ["id"])
+}
+
+type IncidentRequesterVolunteerXRef @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  IncidentId: ID
+  VolunteerId: ID
+  RequesterId: ID
+}
+
+type IncidentActivity @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Activity_XRef: String
+  Desc: String
+  Category: String
+  Status: String
+  Created: AWSDateTime
+  Updated: AWSDateTime
+  ActorId: ID
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  incidentID: ID! @index(name: "byIncident")
+}
+
+type Incident @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Date: AWSDateTime
+  Desc: String
+  Category: String
+  Severity: Severity
+  Ack: String
+  Status: String
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  IncidentActivities: [IncidentActivity] @hasMany(indexName: "byIncident", fields: ["id"])
+  CommunicationModes: [CommunicationModes] @hasMany(indexName: "byIncident", fields: ["id"])
+}
+
+type Volunteer @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Name: String
+  Address: String
+  Age: Int
+  Phone: AWSPhone
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  Created: AWSDateTime
+  Updated: AWSDateTime
+  organizationID: ID! @index(name: "byOrganization")
+}
+
+type Requester @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Name: String
+  Address: String
+  Age: Int
+  Attribute1: String
+  Attribute2: String
+  Attribute3: String
+  Phone: AWSPhone
+  Created: AWSDateTime
+  Updated: AWSDateTime
+}
+ 
