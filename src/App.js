@@ -70,7 +70,7 @@ function App() {
 
             </SpaceBetween>
           </Container>
-          <Container header={<Header variant="h2">Service Categories</Header>}>
+          <Container header={<Header variant="h2">Applicable Categories</Header>}>
           <SpaceBetween direction="vertical" size="l">
           </SpaceBetween>
           </Container>
